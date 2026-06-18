@@ -159,7 +159,7 @@ export default function ProductsPage({ products, pagination, categories }: Produ
     // Reset page to 1 when filters change
     delete query.page;
 
-    router.push({ pathname: '/products', query });
+    router.push({ pathname: '/products', query }, undefined, { scroll: false });
   };
   
   const handlePageChange = (pageNumber: number) => {
@@ -176,7 +176,7 @@ export default function ProductsPage({ products, pagination, categories }: Produ
     sort: (router.query.sort as string) || "newest",
   };
 
-  const FilterSidebar = () => (
+  const FilterSidebar = ({ idPrefix = "desktop" }: { idPrefix?: string }) => (
      <div className="bg-white rounded-lg shadow-card p-5 border border-brown-100">
         <FilterGroup title="Danh mục">
           <CustomFilterSelect 
@@ -194,22 +194,65 @@ export default function ProductsPage({ products, pagination, categories }: Produ
         </FilterGroup>
 
         <FilterGroup title="Giá">
-          {priceRanges.map((range) => (
-            <div key={range.value} className="flex items-center">
-              <input type="radio" id={`price-${range.value}`} name="price" className="w-4 h-4 text-orange-600 focus:ring-orange-500"
-                checked={currentFilters.price === range.value} onChange={() => handleFilterChange("price", range.value)} />
-              <label htmlFor={`price-${range.value}`} className="ml-2 text-secondary-700">{range.label}</label>
-            </div>
-          ))}
+          <div className="space-y-1.5">
+            {priceRanges.map((range) => {
+              const isChecked = currentFilters.price === range.value;
+              const inputId = `${idPrefix}-price-${range.value || "all"}`;
+              return (
+                <label
+                  key={range.value}
+                  htmlFor={inputId}
+                  className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-all duration-200 ${
+                    isChecked
+                      ? "bg-orange-50/60 border-orange-200 text-orange-950 font-medium"
+                      : "bg-white border-transparent text-secondary-700 hover:bg-secondary-50 hover:text-secondary-900"
+                  }`}
+                >
+                  <span className="text-sm select-none">{range.label}</span>
+                  <div className="relative flex items-center justify-center">
+                    <input
+                      type="radio"
+                      id={inputId}
+                      name={`${idPrefix}-price`}
+                      value={range.value}
+                      checked={isChecked}
+                      onChange={() => handleFilterChange("price", range.value)}
+                      className="sr-only"
+                    />
+                    {/* Custom Radio Circle */}
+                    <div
+                      className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-200 ${
+                        isChecked
+                          ? "border-orange-500 bg-orange-500 shadow-sm shadow-orange-500/20"
+                          : "border-secondary-300 bg-white"
+                      }`}
+                    >
+                      {isChecked && (
+                        <div className="w-2.5 h-2.5 rounded-full bg-white transition-all duration-200" />
+                      )}
+                    </div>
+                  </div>
+                </label>
+              );
+            })}
+          </div>
         </FilterGroup>
 
-        <div className="pt-5">
+        <div className="pt-5 flex flex-col gap-2">
+          {idPrefix === "mobile" && (
+            <button
+              onClick={() => setFilterOpen(false)}
+              className="w-full text-center px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg text-sm shadow-sm transition-colors cursor-pointer"
+            >
+              Xem kết quả
+            </button>
+          )}
           <button 
             onClick={() => {
               setFilterOpen(false);
               router.push('/products');
             }}
-            className="w-full text-center px-4 py-2 border border-brown-200 rounded-lg text-sm text-brown-700 hover:bg-brown-50 transition-colors"
+            className="w-full text-center px-4 py-2 border border-brown-200 rounded-lg text-sm text-brown-700 hover:bg-brown-50 transition-colors cursor-pointer"
           >
             Xóa tất cả bộ lọc
           </button>
@@ -244,7 +287,7 @@ export default function ProductsPage({ products, pagination, categories }: Produ
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Sidebar Filters - Desktop */}
             <aside className="hidden lg:block w-full lg:w-1/4 xl:w-1/5 sticky top-24 self-start">
-               <FilterSidebar />
+               <FilterSidebar idPrefix="desktop" />
             </aside>
             
             {/* Mobile Filter Panel */}
@@ -274,7 +317,7 @@ export default function ProductsPage({ products, pagination, categories }: Produ
                     </button>
                   </div>
                   <div className="overflow-y-auto">
-                    <FilterSidebar />
+                    <FilterSidebar idPrefix="mobile" />
                   </div>
               </div>
             </div>

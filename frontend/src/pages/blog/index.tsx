@@ -88,11 +88,11 @@ export default function BlogPage({ blogs, categories, pagination, currentCategor
           {/* Blog Posts Grid */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {blogs.map((post) => (
-            <div key={post._id} className="bg-white rounded-lg overflow-hidden shadow-card hover:shadow-lg transition-all">
+            <div key={post._id} className="bg-white rounded-lg overflow-hidden shadow-card hover:shadow-lg transition-all flex flex-col">
                 <Link href={`/blog/${post.slug}`} className="block relative aspect-[16/9] bg-secondary-100">
                 <Image src={post.featuredImage || "/categories.jpg"} alt={post.title} fill className="object-cover" unoptimized />
                 </Link>
-                <div className="p-6">
+                <div className="p-6 flex flex-col flex-grow">
                   <div className="flex items-center text-xs text-secondary-500 mb-2">
                     <span className="bg-secondary-100 text-secondary-700 px-2 py-1 rounded mr-2">
                       {post.category}
@@ -107,7 +107,7 @@ export default function BlogPage({ blogs, categories, pagination, currentCategor
                   <p className="text-secondary-600 text-sm mb-4 line-clamp-3">
                     {post.excerpt}
                   </p>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mt-auto">
                       <span className="text-xs text-secondary-700">{post.author}</span>
                     <Link href={`/blog/${post.slug}`} className="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center">
                       Đọc tiếp
