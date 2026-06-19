@@ -54,8 +54,8 @@ export default function SearchBar() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8  md:-mt-20 relative z-30">
-      <div className="rounded-xl bg-white p-6 md:p-8 shadow-2xl shadow-brown-900/10 border border-brown-100 relative">
-        <div className="absolute inset-x-0 top-0 h-1 rounded-t-xl bg-gradient-to-r from-primary-500 via-orange-500 to-brown-600" />
+      <div className="rounded-xl bg-white p-6 md:p-8 shadow-2xl shadow-primary-950/8 border border-primary-100/60 relative">
+        <div className="absolute inset-x-0 top-0 h-1 rounded-t-xl bg-gradient-to-r from-primary-600 via-primary-500 to-orange-500" />
         <h2 className="text-xl font-bold text-secondary-900 mb-6 text-center md:text-left">
           Tìm món tươi ngon cho hôm nay
         </h2>

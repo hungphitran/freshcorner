@@ -9,17 +9,22 @@ const isValidEmail = (email) => {
   return emailRegex.test(email.trim());
 };
 
-const BRAND_NAME = "Fresh Corner";
+const BRAND_NAME = process.env.BRAND_NAME || "Fresh Corner";
 
 // Configure nodemailer
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
+  },
+  tls: {
+    // Giúp tránh lỗi chứng chỉ (certificate) khi chạy trên môi trường Docker/Cloud của Railway
+    rejectUnauthorized: false
   }
 });
-
 // Create contact message (only send emails, no database storage)
 const createContact = async (req, res) => {
   try {
@@ -70,12 +75,23 @@ const createContact = async (req, res) => {
 
 // Send contact notification emails
 const sendContactNotification = async (contact) => {
+  let logoUrl = process.env.BRAND_LOGO;
+  try {
+    const Settings = require('../models/settings.model');
+    const settings = await Settings.findOne();
+    if (settings && settings.logo && settings.logo.startsWith('http')) {
+      logoUrl = settings.logo;
+    }
+  } catch (err) {
+    console.error("Failed to load logo from settings:", err);
+  }
+
   // Customer confirmation email
   const customerEmail = {
     from: process.env.EMAIL_USER,
     to: contact.email,
     subject: `${BRAND_NAME} | Xác nhận liên hệ`,
-    html: contactCustomerTemplate(contact)
+    html: contactCustomerTemplate(contact, logoUrl)
   };
 
   // Admin notification email
@@ -83,7 +99,7 @@ const sendContactNotification = async (contact) => {
     from: process.env.EMAIL_USER,
     to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
     subject: `${BRAND_NAME} | Tin nhắn liên hệ mới từ ${contact.name}`,
-    html: contactAdminTemplate(contact)
+    html: contactAdminTemplate(contact, logoUrl)
   };
 
   // Send emails - always send admin email, only send customer email if email is valid

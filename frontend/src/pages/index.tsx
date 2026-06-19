@@ -11,6 +11,50 @@ import api from "@/utils/api";
 import { GetServerSideProps } from "next";
 import { normalizeProduct } from "@/utils/normalizeProduct";
 
+// Slogan 1 - Light theme
+function SloganOne() {
+  return (
+    <div className="text-center p-6 bg-white rounded-2xl border border-primary-100 shadow-soft hover:shadow-md hover:border-primary-200 transition-all duration-300 transform hover:scale-105 flex flex-col items-center">
+      <div className="mb-4 p-3 bg-primary-50 rounded-full text-primary-600">
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+      </div>
+      <h3 className="text-lg font-bold text-secondary-900 mb-2">Trái Cây Tươi Mỗi Ngày</h3>
+      <p className="text-secondary-600 text-sm font-medium">Chọn lọc theo mùa, giao nhanh trong ngày</p>
+    </div>
+  );
+}
+
+// Slogan 2 - Light theme
+function SloganTwo() {
+  return (
+    <div className="text-center p-6 bg-white rounded-2xl border border-primary-100 shadow-soft hover:shadow-md hover:border-primary-200 transition-all duration-300 transform hover:scale-105 flex flex-col items-center">
+      <div className="mb-4 p-3 bg-brown-50 rounded-full text-brown-600">
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      </div>
+      <h3 className="text-lg font-bold text-secondary-900 mb-2">Tea Break Gọn Đẹp</h3>
+      <p className="text-secondary-600 text-sm font-medium">Set bánh, trái cây và đồ uống cho văn phòng</p>
+    </div>
+  );
+}
+
+// Slogan 3 - Light theme
+function SloganThree() {
+  return (
+    <div className="text-center p-6 bg-white rounded-2xl border border-primary-100 shadow-soft hover:shadow-md hover:border-primary-200 transition-all duration-300 transform hover:scale-105 flex flex-col items-center">
+      <div className="mb-4 p-3 bg-orange-50 rounded-full text-orange-600">
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+      </div>
+      <h3 className="text-lg font-bold text-secondary-900 mb-2">Ăn Vặt & Smoothies</h3>
+      <p className="text-secondary-600 text-sm font-medium">Nhẹ bụng, đủ vị, hợp mọi buổi gặp mặt</p>
+    </div>
+  );
+}
 
 interface HomePageProps {
   products: Product[];
@@ -63,16 +107,58 @@ export default function HomePage({ products }: HomePageProps) {
         <SearchBar />
       </section>
 
+      {/* Intro Section */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 text-center flex flex-col items-center">
+        {/* Main Content Header */}
+        <div className="max-w-3xl mx-auto mb-10 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-primary-700 via-primary-500 to-orange-500 bg-clip-text text-transparent tracking-tight leading-tight">
+            Fresh Corner
+          </h1>
+          <p className="text-secondary-600 text-lg md:text-xl font-medium leading-relaxed">
+            Trái cây tươi, tea break, ăn vặt và smoothies cho văn phòng, gia đình và những buổi gặp mặt thân mật.
+          </p>
+        </div>
+
+        {/* 3 Slogans Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl mb-12 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <SloganOne />
+          <SloganTwo />
+          <SloganThree />
+        </div>
+
+        {/* Call to Action Buttons */}
+        <div className="flex flex-wrap justify-center gap-6 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+          <Link
+            href="/products"
+            className="inline-flex items-center bg-primary-600 text-white px-8 py-3.5 rounded-xl font-semibold text-md hover:bg-primary-700 transition-all duration-300 shadow-lg shadow-primary-500/25 transform hover:scale-105"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            Xem Sản Phẩm
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center bg-white text-primary-700 border border-primary-200 px-8 py-3.5 rounded-xl font-semibold text-md hover:bg-primary-50 hover:border-primary-300 transition-all duration-300 transform hover:scale-105 shadow-sm"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            Đặt Tiệc / Liên Hệ
+          </Link>
+        </div>
+      </section>
+
       {/* Products Preview Section */}
       <ProductGrid products={products} />
 
       <section className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center">
-            <div className="w-1 h-8 mr-3 rounded-full bg-gradient-to-b from-orange-500 to-brown-600"></div>
+            <div className="w-1 h-8 mr-3 rounded-full bg-gradient-to-b from-primary-500 to-primary-700"></div>
             <h2 className="text-2xl font-bold text-secondary-900">Bài viết mới nhất</h2>
           </div>
-          <Link href="/blog" className="text-orange-600 hover:text-orange-700 font-medium">
+          <Link href="/blog" className="text-primary-600 hover:text-primary-700 font-medium">
             Xem tất cả
           </Link>
         </div>
@@ -97,7 +183,7 @@ export default function HomePage({ products }: HomePageProps) {
                   <span>{post.date}</span>
                 </div>
                 <Link href={`/blog/${post.slug}`}>
-                  <h3 className="font-bold text-lg text-secondary-900 mb-2 hover:text-orange-600 transition-colors">
+                  <h3 className="font-bold text-lg text-secondary-900 mb-2 hover:text-primary-600 transition-colors">
                     {post.title}
                   </h3>
                 </Link>
@@ -111,7 +197,7 @@ export default function HomePage({ products }: HomePageProps) {
                     </div>
                     <span className="text-xs text-secondary-700">{post.author}</span>
                   </div>
-                  <Link href={`/blog/${post.slug}`} className="text-brown-600 hover:text-brown-700 text-sm font-medium flex items-center">
+                  <Link href={`/blog/${post.slug}`} className="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center">
                     Đọc tiếp
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 ml-1">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />

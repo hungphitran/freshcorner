@@ -70,7 +70,7 @@ export default function BlogPage({ blogs, categories, pagination, currentCategor
           <div className="flex flex-wrap gap-2 mb-8">
           <button
             onClick={() => handleCategoryClick("")}
-            className={`px-4 py-2 rounded-full text-sm ${!currentCategory ? "bg-primary-600 text-white" : "bg-brown-50 text-brown-700 hover:bg-brown-100"}`}
+            className={`px-4 py-2 rounded-full text-sm ${!currentCategory ? "bg-primary-600 text-white" : "bg-primary-50 text-primary-700 hover:bg-primary-100"}`}
           >
             Tất cả
           </button>
@@ -78,7 +78,7 @@ export default function BlogPage({ blogs, categories, pagination, currentCategor
               <button
                 key={category}
               onClick={() => handleCategoryClick(category)}
-              className={`px-4 py-2 rounded-full text-sm ${currentCategory === category ? "bg-primary-600 text-white" : "bg-brown-50 text-brown-700 hover:bg-brown-100"}`}
+              className={`px-4 py-2 rounded-full text-sm ${currentCategory === category ? "bg-primary-600 text-white" : "bg-primary-50 text-primary-700 hover:bg-primary-100"}`}
               >
                 {category}
               </button>

@@ -1,20 +1,21 @@
-const BRAND_NAME = 'Fresh Corner';
-const BRAND_PHONE = '0345 8888 04';
-const BRAND_ADDRESS = 'TP. Hồ Chí Minh';
-const BRAND_WEBSITE = 'https://freshcorner.vn';
-const BRAND_LOGO = 'https://res.cloudinary.com/ddmcucfs1/image/upload/v1754021700/logo_ktdsz4.png';
+
+const BRAND_NAME = process.env.BRAND_NAME;
+const BRAND_PHONE = process.env.BRAND_PHONE;
+const BRAND_ADDRESS = process.env.BRAND_ADDRESS;
+const BRAND_WEBSITE = process.env.BRAND_WEBSITE;
+const BRAND_LOGO = process.env.BRAND_LOGO;
 
 /**
  * Basic style wrapper for all emails with modern green theme
  */
-function wrapEmail(content) {
+function wrapEmail(content, logoUrl) {
   return `
     <div style="font-family: 'Lexend Deca', sans-serif; min-height: 100vh;">
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 800px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);">
         <!-- Header with Logo -->
         <tr>
           <td style="padding: 0px 32px; text-align: center; position: relative; gap: 16px;">
-            <img src="${BRAND_LOGO}" alt="${BRAND_NAME}" style="max-height: 100px; height: auto; width: auto; display: block; margin: 0 auto;" />
+            <img src="${logoUrl || BRAND_LOGO}" alt="${BRAND_NAME}" style="max-height: 100px; height: auto; width: auto; display: block; margin: 0 auto;" />
             <h1 style="text-align: center; margin: 0; font-size: 24px; font-weight: 700; color: #000; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">${BRAND_NAME}</h1>
             <div style="text-align: center; margin: 12px 0 0; padding: 8px 16px; background: rgba(255, 255, 255, 0.15); border-radius: 20px; display: inline-block;">
               <p style="text-align: center; margin: 0; font-size: 14px; color: #000; font-weight: 500; text-style: italic;">
@@ -66,7 +67,7 @@ function createInfoCard(title, content) {
   `;
 }
 
-function contactCustomerTemplate(contact) {
+function contactCustomerTemplate(contact, logoUrl) {
   const contactInfo = `
     <p>Họ tên: ${contact.name}</p>
     ${contact.email ? `<p>Email: <a href="mailto:${contact.email}" style="color: #059669; text-decoration: none;">${contact.email}</a></p>` : ''}
@@ -98,10 +99,10 @@ function contactCustomerTemplate(contact) {
       <strong style="font-size: 16px;">${BRAND_NAME}</strong>
     </p>
   `;
-  return wrapEmail(body);
+  return wrapEmail(body, logoUrl);
 }
 
-function contactAdminTemplate(contact) {
+function contactAdminTemplate(contact, logoUrl) {
   const contactInfo = `
     <p>Họ tên: ${contact.name}</p>
     ${contact.email ? `<p>Email: <a href="mailto:${contact.email}" style="color: #059669; text-decoration: none;">${contact.email}</a></p>` : '<p>Email: <span style="color: #ef4444;">Không cung cấp</span></p>'}
@@ -125,7 +126,7 @@ function contactAdminTemplate(contact) {
       ${contact.email ? `<a href="mailto:${contact.email}" style="display: inline-block; background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-weight: 600;">📧 Trả lời email</a>` : ''}
     </div>
   `;
-  return wrapEmail(body);
+  return wrapEmail(body, logoUrl);
 }
 
 function orderItemsTable(order) {
@@ -167,7 +168,7 @@ function orderItemsTable(order) {
   `;
 }
 
-function orderCustomerTemplate(order) {
+function orderCustomerTemplate(order, logoUrl) {
   const customerInfo = `
     <p>Họ tên: ${order.customer.name}</p>
     ${order.customer.email ? `<p>Email: <a href="mailto:${order.customer.email}" style="color: #059669; text-decoration: none;">${order.customer.email}</a></p>` : ''}
@@ -209,10 +210,10 @@ function orderCustomerTemplate(order) {
       <strong style="font-size: 16px;">${BRAND_NAME}</strong>
     </p>
   `;
-  return wrapEmail(body);
+  return wrapEmail(body, logoUrl);
 }
 
-function orderAdminTemplate(order) {
+function orderAdminTemplate(order, logoUrl) {
   const customerInfo = `
     <p>Họ tên: ${order.customer.name}</p>
     ${order.customer.email ? `<p>Email: <a href="mailto:${order.customer.email}" style="color: #059669; text-decoration: none;">${order.customer.email}</a></p>` : '<p>Email: <span style="color: #ef4444;">Không cung cấp</span></p>'}
@@ -250,7 +251,7 @@ function orderAdminTemplate(order) {
       ${order.customer.email ? `<a href="mailto:${order.customer.email}" style="display: inline-block; background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-weight: 600;">📧 Gửi email</a>` : ''}
     </div>
   `;
-  return wrapEmail(body);
+  return wrapEmail(body, logoUrl);
 }
 
 module.exports = {

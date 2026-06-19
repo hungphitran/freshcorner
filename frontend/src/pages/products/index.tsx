@@ -177,7 +177,7 @@ export default function ProductsPage({ products, pagination, categories }: Produ
   };
 
   const FilterSidebar = ({ idPrefix = "desktop" }: { idPrefix?: string }) => (
-     <div className="bg-white rounded-lg shadow-card p-5 border border-brown-100">
+     <div className="bg-white rounded-lg shadow-card p-5 border border-primary-100/60">
         <FilterGroup title="Danh mục">
           <CustomFilterSelect 
             value={currentFilters.category} 
@@ -242,7 +242,7 @@ export default function ProductsPage({ products, pagination, categories }: Produ
           {idPrefix === "mobile" && (
             <button
               onClick={() => setFilterOpen(false)}
-              className="w-full text-center px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg text-sm shadow-sm transition-colors cursor-pointer"
+              className="w-full text-center px-4 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg text-sm shadow-sm transition-colors cursor-pointer"
             >
               Xem kết quả
             </button>
@@ -252,7 +252,7 @@ export default function ProductsPage({ products, pagination, categories }: Produ
               setFilterOpen(false);
               router.push('/products');
             }}
-            className="w-full text-center px-4 py-2 border border-brown-200 rounded-lg text-sm text-brown-700 hover:bg-brown-50 transition-colors cursor-pointer"
+            className="w-full text-center px-4 py-2 border border-primary-200 rounded-lg text-sm text-primary-700 hover:bg-primary-50 transition-colors cursor-pointer"
           >
             Xóa tất cả bộ lọc
           </button>
@@ -272,11 +272,11 @@ export default function ProductsPage({ products, pagination, categories }: Produ
     <div>
       <div className="bg-white">
         {/* Page Header */}
-        <div className="bg-gradient-to-r from-primary-50 via-orange-50 to-brown-50 py-4 lg:py-8 border-b border-brown-100">
+        <div className="bg-gradient-to-r from-primary-50 via-primary-50/50 to-orange-50/30 py-4 lg:py-8 border-b border-primary-100/80">
           <div className="container mx-auto px-4">
             <h1 className="text-2xl lg:text-3xl font-bold text-secondary-900 mb-2 hidden lg:block">Sản phẩm Fresh Corner</h1>
             <div className="flex items-center text-base text-secondary-600">
-              <Link href="/" className="hover:text-orange-600 underline">Trang chủ</Link>
+              <Link href="/" className="hover:text-primary-600 underline">Trang chủ</Link>
               <span className="mx-2">/</span>
               <span className="underline">Sản phẩm</span>
             </div>
@@ -326,10 +326,10 @@ export default function ProductsPage({ products, pagination, categories }: Produ
             {/* Products Grid */}
             <main className="w-full lg:w-3/4 xl:w-4/5">
               {/* Toolbar */}
-              <div className="bg-white rounded-lg border border-brown-100 md:p-4 p-2 mb-6 flex md:grid md:grid-cols-[1fr_auto_auto] items-center justify-between md:justify-start gap-4">
+              <div className="bg-white rounded-lg border border-primary-100/60 md:p-4 p-2 mb-6 flex md:grid md:grid-cols-[1fr_auto_auto] items-center justify-between md:justify-start gap-4">
                   {/* Col 1: Filter Button / Count */}
                   <div className="flex items-center gap-4">
-                    <button className="md:hidden flex items-center gap-2 px-4 py-2 border border-brown-200 rounded-lg text-brown-700" onClick={() => setFilterOpen(true)}>
+                    <button className="md:hidden flex items-center gap-2 px-4 py-2 border border-primary-200 rounded-lg text-primary-700" onClick={() => setFilterOpen(true)}>
                       <Filter className="w-5 h-5" />
                       <span className="md:font-medium text-sm md:text-base">Bộ lọc</span>
                     </button>

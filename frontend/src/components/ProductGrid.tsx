@@ -14,12 +14,12 @@ export default function ProductGrid({ products, title = "Tất cả sản phẩm
       {/* Section Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center">
-          <div className="w-1 h-8 mr-3 rounded-full bg-gradient-to-b from-primary-500 via-orange-500 to-brown-600" />
+          <div className="w-1 h-8 mr-3 rounded-full bg-gradient-to-b from-primary-500 to-primary-700" />
           <h2 className="text-xl lg:text-2xl font-bold text-secondary-900">{title}</h2>
         </div>
         <Link
           href="/products"
-          className="text-orange-600 hover:text-orange-700 font-medium hidden lg:block"
+          className="text-primary-600 hover:text-primary-700 font-medium hidden lg:block"
         >
           Xem tất cả
         </Link>

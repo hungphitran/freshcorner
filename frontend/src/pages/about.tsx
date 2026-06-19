@@ -31,7 +31,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-primary-700 via-primary-800 to-brown-700 overflow-hidden">
+      <div className="relative bg-gradient-to-br from-primary-700 via-primary-800 to-primary-950 overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-10"></div>
         <div className="relative container mx-auto px-4 py-20 lg:py-28">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -92,7 +92,7 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">Về Chúng Tôi</h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-primary-500 via-orange-500 to-brown-600 mx-auto mb-6"></div>
+              <div className="w-24 h-1 bg-gradient-to-r from-primary-600 via-primary-500 to-orange-500 mx-auto mb-6"></div>
               <p className="text-xl text-gray-600 leading-relaxed">
                 Fresh Corner được xây dựng để việc đặt món tươi ngon cho mỗi ngày trở nên đơn giản hơn
               </p>
@@ -107,7 +107,7 @@ export default function AboutPage() {
                   </p>
                 </div>
 
-                <div className="bg-brown-50 p-6 rounded-2xl border-l-4 border-brown-500">
+                <div className="bg-primary-50/50 p-6 rounded-2xl border-l-4 border-primary-500">
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">Cam kết chất lượng</h3>
                   <p className="text-gray-700 leading-relaxed">
                     Cam kết của chúng tôi là món ăn rõ nguồn, đóng gói sạch, giao đúng hẹn và giữ được trải nghiệm tươi ngon khi đến tay khách hàng.
@@ -116,29 +116,29 @@ export default function AboutPage() {
               </div>
 
               <div className="space-y-4">
-                <div className="bg-gradient-to-r from-brown-700 to-orange-600 text-white p-8 rounded-2xl">
+                <div className="bg-gradient-to-r from-primary-800 to-primary-600 text-white p-8 rounded-2xl">
                   <h3 className="text-2xl font-bold mb-4">Tại Fresh Corner</h3>
                   <h4 className="text-lg font-semibold mb-4">Chúng tôi tập trung vào:</h4>
                   <ul className="space-y-3">
                     <li className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-orange-200 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-primary-200 mt-0.5 flex-shrink-0" />
                       <div>
                         <span className="font-semibold">Sản phẩm tươi ngon:</span>
-                        <span className="text-orange-50"> Chọn nguyên liệu phù hợp từng nhóm món</span>
+                        <span className="text-primary-50"> Chọn nguyên liệu phù hợp từng nhóm món</span>
                       </div>
                     </li>
                     <li className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-orange-200 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-primary-200 mt-0.5 flex-shrink-0" />
                       <div>
                         <span className="font-semibold">Phù hợp từng dịp:</span>
                         <span className="text-orange-50"> Tư vấn set cá nhân, gia đình, văn phòng</span>
                       </div>
                     </li>
                     <li className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-orange-200 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-primary-200 mt-0.5 flex-shrink-0" />
                       <div>
                         <span className="font-semibold">Dịch vụ tận tâm:</span>
-                        <span className="text-orange-50"> Giao nhanh, hỗ trợ đơn lẻ và đơn nhóm</span>
+                        <span className="text-primary-50"> Giao nhanh, hỗ trợ đơn lẻ và đơn nhóm</span>
                       </div>
                     </li>
                   </ul>
@@ -154,7 +154,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Tại Sao Chọn Fresh Corner?</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-primary-500 via-orange-500 to-brown-600 mx-auto mb-6"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-primary-600 via-primary-500 to-orange-500 mx-auto mb-6"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Chúng tôi không chỉ bán món ăn, chúng tôi giúp bạn chuẩn bị nhanh hơn cho ngày làm việc và các buổi gặp mặt.
             </p>
@@ -167,7 +167,7 @@ export default function AboutPage() {
                   <div className="text-center mb-6">
                     <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 ${
                       index === 0 ? "bg-gradient-to-br from-primary-500 to-primary-700" :
-                      index === 1 ? "bg-gradient-to-br from-brown-500 to-brown-700" :
+                      index === 1 ? "bg-gradient-to-br from-primary-600 to-primary-800" :
                       "bg-gradient-to-br from-orange-500 to-orange-700"
                     }`}>
                       <reason.icon className="w-10 h-10 text-white" />

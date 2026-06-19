@@ -70,12 +70,12 @@ export default function ContactPage() {
       />
     <div className="bg-white min-h-screen">
       {/* Header */}
-      <div className="relative bg-gradient-to-br from-primary-50 via-orange-50 to-brown-50 py-14 mb-10 border-b border-brown-100">
+      <div className="relative bg-gradient-to-br from-primary-50 via-primary-50/50 to-orange-50/30 py-14 mb-10 border-b border-primary-100/80">
         <div className="container mx-auto px-4 flex flex-col items-center">
           <div className="mb-4">
             <img src="/logo.png" alt="Fresh Corner" className="h-14 w-auto mx-auto drop-shadow" />
           </div>
-          <h1 className="text-4xl font-extrabold text-brown-700 mb-2 text-center tracking-tight">
+          <h1 className="text-4xl font-extrabold text-primary-700 mb-2 text-center tracking-tight">
           Đặt Trái Cây, Tea Break & Smoothies Cho Mọi Dịp
           </h1>
           <p className="text-lg text-secondary-700 text-center max-w-4xl mx-auto">
@@ -92,24 +92,12 @@ export default function ContactPage() {
               {contactInfo.map((item, idx) => (
                 <div
                   key={idx}
-                  className="bg-white rounded-2xl border border-brown-100 shadow-md hover:shadow-lg transition-shadow p-6 flex flex-col items-start gap-2 group"
+                  className="bg-white rounded-2xl border border-primary-100/80 shadow-md hover:shadow-lg transition-shadow p-6 flex flex-col items-start gap-2 group"
                 >
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-2 transition-colors ${
-                    idx % 3 === 0 ? "bg-primary-50 group-hover:bg-primary-100" :
-                    idx % 3 === 1 ? "bg-brown-50 group-hover:bg-brown-100" :
-                    "bg-orange-50 group-hover:bg-orange-100"
-                  }`}>
-                    <item.icon className={`w-7 h-7 ${
-                      idx % 3 === 0 ? "text-primary-600" :
-                      idx % 3 === 1 ? "text-brown-600" :
-                      "text-orange-600"
-                    }`} />
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-2 bg-primary-50 group-hover:bg-primary-100 transition-colors">
+                    <item.icon className="w-7 h-7 text-primary-600" />
                   </div>
-                  <h3 className={`text-lg font-semibold mb-1 ${
-                    idx % 3 === 0 ? "text-primary-700" :
-                    idx % 3 === 1 ? "text-brown-700" :
-                    "text-orange-700"
-                  }`}>{item.title}</h3>
+                  <h3 className="text-lg font-semibold mb-1 text-primary-700">{item.title}</h3>
                   <p className="text-base font-bold text-secondary-900 mb-0.5">{item.content}</p>
                   <p className="text-base text-secondary-600">{item.detail}</p>
                 </div>
@@ -120,7 +108,7 @@ export default function ContactPage() {
           {/* Form liên hệ */}
           <div>
             <div className="bg-white rounded-2xl border border-secondary-200 shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-brown-700 mb-6 text-center">
+              <h2 className="text-2xl font-bold text-primary-700 mb-6 text-center">
                 Liên hệ ngay
               </h2>
               <form onSubmit={handleSubmit} className="space-y-5">

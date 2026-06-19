@@ -98,19 +98,19 @@ export default function NewProduct({
     <section id="products" className="mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center">
-          <div className="w-1 h-8 mr-3 rounded-full bg-gradient-to-b from-primary-500 via-orange-500 to-brown-600"></div>
+          <div className="w-1 h-8 mr-3 rounded-full bg-gradient-to-b from-primary-500 to-primary-700"></div>
           <h2 className="text-2xl font-bold text-secondary-900">{title}</h2>
         </div>
         <div>
           {viewMoreLink ? (
-            <Link href={viewMoreLink} className="text-orange-600 hover:text-orange-700 font-medium">
+            <Link href={viewMoreLink} className="text-primary-600 hover:text-primary-700 font-medium">
               {viewMoreText}
             </Link>
           ) : (
             showFilters && (
               <button
                 onClick={() => setFilters({})}
-                className="text-orange-600 hover:text-orange-700 font-medium"
+                className="text-primary-600 hover:text-primary-700 font-medium"
               >
                 Clear Filters
               </button>
@@ -130,7 +130,7 @@ export default function NewProduct({
 
       {filteredProducts.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow-card">
-          <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center">
+          <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-primary-50 text-primary-600 flex items-center justify-center">
             <Search className="w-7 h-7" />
           </div>
           <h3 className="text-xl font-semibold text-secondary-900 mb-2">
@@ -165,13 +165,13 @@ export default function NewProduct({
               <>
                 <button
                   onClick={handlePrev}
-                  className="absolute left-0 -translate-x-full top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 hover:bg-orange-500 hover:text-white transition-colors z-20"
+                  className="absolute left-0 -translate-x-full top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 hover:bg-primary-600 hover:text-white transition-colors z-20"
                 >
                   &#8592;
                 </button>
                 <button
                   onClick={handleNext}
-                  className="absolute right-0 translate-x-full top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 hover:bg-orange-500 hover:text-white transition-colors z-20"
+                  className="absolute right-0 translate-x-full top-1/2 -translate-y-1/2 bg-white rounded-full shadow p-2 hover:bg-primary-600 hover:text-white transition-colors z-20"
                 >
                   &#8594;
                 </button>
@@ -184,7 +184,7 @@ export default function NewProduct({
             <div className="text-center mt-8">
               <Link 
                 href={`/products?category=${title.toLowerCase().replace(/\s+/g, '-')}`}
-                className="inline-block bg-brown-600 text-white px-6 py-3 rounded hover:bg-brown-700 transition-colors shadow-md"
+                className="inline-block bg-primary-600 text-white px-6 py-3 rounded hover:bg-primary-700 transition-colors shadow-md"
               >
                 View All {title}
               </Link>

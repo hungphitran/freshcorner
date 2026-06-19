@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef, forwardRef } from "react";
 import { useRouter } from "next/router";
-import { Mail, MapPin, PhoneCall, ShoppingCart, Search, X } from "lucide-react";
+import { Mail, MapPin, PhoneCall, ShoppingCart, Search, X, ChevronDown } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import api from "@/utils/api";
 import { Product } from "./ProductCard";
@@ -20,10 +20,28 @@ const Header = forwardRef<HTMLElement>((props, ref) => {
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const mobileSearchContainerRef = useRef<HTMLDivElement>(null);
 
+  const [categories, setCategories] = useState<{ _id: string; name: string; slug: string }[]>([]);
+  const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
+
   const isActive = (href: string) => {
     if (href === "/") return router.pathname === "/";
     return router.pathname.startsWith(href);
   };
+
+  // Fetch active categories
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await api.get('/categories', { params: { isActive: true, limit: 1000 } });
+        if (res.data.success) {
+          setCategories(res.data.categories || res.data.data || []);
+        }
+      } catch (err) {
+        console.error("Failed to fetch categories in header", err);
+      }
+    }
+    fetchCategories();
+  }, []);
   
   // Debounced search effect
   useEffect(() => {
@@ -123,7 +141,7 @@ const Header = forwardRef<HTMLElement>((props, ref) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-40 w-full bg-white text-black shadow-md" ref={ref}>
       {/* Top contact bar (desktop only) */}
-      <div className="hidden lg:flex items-center justify-between px-6 py-2 text-sm bg-brown-700 text-white">
+      <div className="hidden lg:flex items-center justify-between px-6 py-2 text-sm bg-primary-800 text-white">
         <div className="flex items-center gap-6">
           <span className="flex items-center gap-2">
             <PhoneCall className="w-4 h-4" /> 0345&nbsp;8888&nbsp;04
@@ -164,7 +182,7 @@ const Header = forwardRef<HTMLElement>((props, ref) => {
           {/* Logo */}
           <Link href="/" aria-label="Fresh Corner" className="flex items-center gap-2">
            <Image src="/logo.png" alt="Fresh Corner" width={60} height={60} className="object-contain hidden lg:block" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 via-orange-500 to-brown-700 bg-clip-text text-transparent">Fresh Corner</span>
+             <span className="text-2xl font-bold bg-gradient-to-r from-primary-700 via-primary-500 to-orange-500 bg-clip-text text-transparent">Fresh Corner</span>
           </Link>
 
           {/* Search (desktop) */}
@@ -181,6 +199,33 @@ const Header = forwardRef<HTMLElement>((props, ref) => {
                 >
                   TRANG CHỦ
                 </Link>
+                <div className="relative group py-2">
+                  <Link
+                    href="/products"
+                    className={`${isActive("/products") ? "text-primary-600 border-b-2 border-primary-500" : "hover:text-primary-600"} pb-1 transition-colors flex items-center gap-0.5`}
+                  >
+                    SẢN PHẨM
+                    <ChevronDown className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" />
+                  </Link>
+                  <div className="absolute top-full left-0 mt-0 w-56 bg-white border border-secondary-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-2">
+                    <Link
+                      href="/products"
+                      className="block px-4 py-2.5 text-sm text-secondary-700 hover:bg-primary-50 hover:text-primary-700 transition-colors font-semibold"
+                    >
+                      Tất cả sản phẩm
+                    </Link>
+                    <div className="border-t border-secondary-100 my-1"></div>
+                    {categories.map((category) => (
+                      <Link
+                        key={category._id}
+                        href={`/products?category=${category.slug || category._id}`}
+                        className="block px-4 py-2 text-sm text-secondary-700 hover:bg-primary-50 hover:text-primary-700 transition-colors"
+                      >
+                        {category.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
                 <Link
                   href="/about"
                   className={`${isActive("/about") ? "text-primary-600 border-b-2 border-primary-500" : "hover:text-primary-600"} pb-1 transition-colors`}
@@ -239,7 +284,7 @@ const Header = forwardRef<HTMLElement>((props, ref) => {
           <div className="flex items-center justify-between px-4 py-3 border-b">
              <Link href="/" aria-label="Fresh Corner" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                 <Image src="/logo.png" alt="Fresh Corner" width={40} height={40} className="object-contain" />
-                <span className="text-xl font-bold bg-gradient-to-r from-primary-600 via-orange-500 to-brown-700 bg-clip-text text-transparent">Fresh Corner</span>
+                 <span className="text-xl font-bold bg-gradient-to-r from-primary-700 via-primary-500 to-orange-500 bg-clip-text text-transparent">Fresh Corner</span>
               </Link>
             <button
               type="button"
@@ -253,6 +298,51 @@ const Header = forwardRef<HTMLElement>((props, ref) => {
           
           <nav className="flex-grow flex flex-col text-base font-medium text-secondary-700 pt-4">
             <Link href="/" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 border-b border-secondary-200 hover:bg-primary-50 hover:text-primary-600">TRANG CHỦ</Link>
+            <div className="border-b border-secondary-200">
+              <div className="flex items-center justify-between hover:bg-primary-50">
+                <Link 
+                  href="/products" 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="flex-1 py-3 px-4 hover:text-primary-600 font-medium"
+                >
+                  SẢN PHẨM
+                </Link>
+                <button
+                  onClick={() => setMobileCategoriesOpen(!mobileCategoriesOpen)}
+                  className="py-3 px-4 border-l border-secondary-200 hover:text-primary-600"
+                  aria-label="Toggle products submenu"
+                >
+                  <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${mobileCategoriesOpen ? 'rotate-180 text-primary-600' : 'text-secondary-500'}`} />
+                </button>
+              </div>
+              {mobileCategoriesOpen && (
+                <div className="bg-secondary-50 py-1 pl-4 border-t border-secondary-100">
+                  <Link 
+                    href="/products" 
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setMobileCategoriesOpen(false);
+                    }} 
+                    className="block py-2.5 px-4 text-sm text-secondary-700 hover:text-primary-600 border-l border-secondary-300 hover:border-primary-500"
+                  >
+                    Tất cả sản phẩm
+                  </Link>
+                  {categories.map((category) => (
+                    <Link 
+                      key={category._id}
+                      href={`/products?category=${category.slug || category._id}`} 
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setMobileCategoriesOpen(false);
+                      }} 
+                      className="block py-2.5 px-4 text-sm text-secondary-700 hover:text-primary-600 border-l border-secondary-300 hover:border-primary-500"
+                    >
+                      {category.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
             <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 border-b border-secondary-200 hover:bg-primary-50 hover:text-primary-600">VỀ CHÚNG TÔI</Link>
             <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 border-b border-secondary-200 hover:bg-primary-50 hover:text-primary-600">ĐẶT TIỆC / LIÊN HỆ</Link>
             <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 hover:bg-primary-50 hover:text-primary-600">BLOG</Link>

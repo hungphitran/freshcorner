@@ -11,7 +11,7 @@ const isValidEmail = (email) => {
   return emailRegex.test(email.trim());
 };
 
-const BRAND_NAME = "Fresh Corner";
+const BRAND_NAME = process.env.BRAND_NAME || "Fresh Corner";
 
 
 // Configure nodemailer
@@ -135,11 +135,22 @@ const createOrder = async (req, res) => {
 
 // Send order notification email
 const sendOrderNotification = async (order) => {
+  let logoUrl = 'https://freshcorner.vn/logo.png';
+  try {
+    const Settings = require('../models/settings.model');
+    const settings = await Settings.findOne();
+    if (settings && settings.logo && settings.logo.startsWith('http')) {
+      logoUrl = settings.logo;
+    }
+  } catch (err) {
+    console.error("Failed to load logo from settings:", err);
+  }
+
   const customerEmail = {
     from: process.env.EMAIL_USER,
     to: order.customer.email,
     subject: `${BRAND_NAME} | Xác nhận liên hệ đơn hàng`,
-    html: orderCustomerTemplate(order)
+    html: orderCustomerTemplate(order, logoUrl)
   };
 
   // Admin notification email
@@ -147,7 +158,7 @@ const sendOrderNotification = async (order) => {
     from: process.env.EMAIL_USER,
     to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
     subject: `${BRAND_NAME} | Đơn hàng mới từ khách hàng ${order.customer.name}`,
-    html: orderAdminTemplate(order)
+    html: orderAdminTemplate(order, logoUrl)
   };
 
   // Send emails - always send admin email, only send customer email if email is valid
