@@ -2,6 +2,8 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+const os = require('os');
+
 // Tạo thư mục nếu chưa tồn tại
 const createDirectoryIfNotExists = (dir) => {
     if (!fs.existsSync(dir)) {
@@ -12,7 +14,9 @@ const createDirectoryIfNotExists = (dir) => {
 // Cấu hình storage cho multer (tạm thời lưu file để upload lên Cloudinary)
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const uploadDir = path.join(__dirname, '../uploads/temp');
+        const uploadDir = process.env.VERCEL
+            ? path.join(os.tmpdir(), 'uploads/temp')
+            : path.join(__dirname, '../uploads/temp');
         createDirectoryIfNotExists(uploadDir);
         cb(null, uploadDir);
     },

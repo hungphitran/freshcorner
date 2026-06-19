@@ -3,6 +3,8 @@ const path = require('path');
 
 // Tạo thư mục temp để lưu file tạm thời trước khi upload lên Cloudinary
 const createTempUploadDirectory = () => {
+    if (process.env.VERCEL) return;
+
     const tempDir = path.join(__dirname, '../uploads/temp');
     
     if (!fs.existsSync(tempDir)) {
