@@ -1,6 +1,6 @@
-const nodemailer = require('nodemailer');
 const { validationResult } = require('express-validator');
 const { contactCustomerTemplate, contactAdminTemplate } = require('../utils/emailTemplates');
+const { transporter } = require('../config/email');
 
 // Helper function to validate email
 const isValidEmail = (email) => {
@@ -10,21 +10,6 @@ const isValidEmail = (email) => {
 };
 
 const BRAND_NAME = process.env.BRAND_NAME || "Fresh Corner";
-
-// Configure nodemailer
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  },
-  tls: {
-    // Giúp tránh lỗi chứng chỉ (certificate) khi chạy trên môi trường Docker/Cloud của Railway
-    rejectUnauthorized: false
-  }
-});
 // Create contact message (only send emails, no database storage)
 const createContact = async (req, res) => {
   try {

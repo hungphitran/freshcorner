@@ -1,8 +1,8 @@
 const Order = require('../models/order.model');
 const Product = require('../models/product.model');
-const nodemailer = require('nodemailer');
 const { validationResult } = require('express-validator');
 const { orderCustomerTemplate, orderAdminTemplate } = require('../utils/emailTemplates');
+const { transporter } = require('../config/email');
 
 // Helper function to validate email
 const isValidEmail = (email) => {
@@ -12,16 +12,6 @@ const isValidEmail = (email) => {
 };
 
 const BRAND_NAME = process.env.BRAND_NAME || "Fresh Corner";
-
-
-// Configure nodemailer
-const transporter = nodemailer.createTransport({
-  service: 'gmail', // or your email service
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
 
 // Create order from product list (new way to create orders)
 const createOrder = async (req, res) => {
@@ -135,7 +125,7 @@ const createOrder = async (req, res) => {
 
 // Send order notification email
 const sendOrderNotification = async (order) => {
-  let logoUrl = 'https://freshcorner.vn/logo.png';
+  let logoUrl = process.env.BRAND_LOGO;
   try {
     const Settings = require('../models/settings.model');
     const settings = await Settings.findOne();
