@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const { contactCustomerTemplate, contactAdminTemplate } = require('../utils/emailTemplates');
 const { transporter } = require('../config/email');
+const Contact = require('../models/contact.model');
 
 // Helper function to validate email
 const isValidEmail = (email) => {
@@ -22,9 +23,19 @@ const createContact = async (req, res) => {
       });
     }
 
+    const contact = new Contact({
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      subject: req.body.subject || 'Liên hệ mới',
+      message: req.body.message || 'Không có nội dung'
+    });
+
+    await contact.save();
+
     const contactData = {
       ...req.body,
-      createdAt: new Date()
+      createdAt: contact.createdAt
     };
 
     // Send email notifications
@@ -100,6 +111,118 @@ const sendContactNotification = async (contact) => {
   await Promise.all(emailPromises);
 };
 
+// Get all contacts (Admin)
+const getContacts = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const filter = {};
+    if (req.query.status) {
+      filter.status = req.query.status;
+    }
+    if (req.query.search) {
+      filter.$or = [
+        { name: { $regex: req.query.search, $options: 'i' } },
+        { email: { $regex: req.query.search, $options: 'i' } },
+        { phone: { $regex: req.query.search, $options: 'i' } },
+        { subject: { $regex: req.query.search, $options: 'i' } }
+      ];
+    }
+
+    const contacts = await Contact.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalContacts = await Contact.countDocuments(filter);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        contacts,
+        pagination: {
+          currentPage: page,
+          totalPages: Math.ceil(totalContacts / limit),
+          totalContacts,
+          limit
+        }
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching contacts',
+      error: error.message
+    });
+  }
+};
+
+// Update contact status (Admin)
+const updateContactStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!['pending', 'contacted', 'cancelled'].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Trạng thái không hợp lệ'
+      });
+    }
+
+    const contact = await Contact.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true, runValidators: true }
+    );
+
+    if (!contact) {
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy liên hệ'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Cập nhật trạng thái liên hệ thành công',
+      data: contact
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error updating contact status',
+      error: error.message
+    });
+  }
+};
+
+// Delete contact (Admin)
+const deleteContact = async (req, res) => {
+  try {
+    const contact = await Contact.findByIdAndDelete(req.params.id);
+    if (!contact) {
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy liên hệ'
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'Xóa liên hệ thành công'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting contact',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
-  createContact
+  createContact,
+  getContacts,
+  updateContactStatus,
+  deleteContact
 };

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { BarChart2, ShoppingBag, Package, Book, ChevronDown, FolderTree } from "lucide-react";
+import { BarChart2, ShoppingBag, Package, Book, ChevronDown, FolderTree, Mail } from "lucide-react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import api from "@/utils/api";
@@ -26,7 +26,7 @@ const navItems: NavItem[] = [
   { href: "/admin/products", label: "Sản phẩm", icon: Package },
   { href: "/admin/categories", label: "Danh mục", icon: FolderTree },
   { href: "/admin/blog", label: "Blog", icon: Book },
-
+  { href: "/admin/contacts", label: "Liên hệ", icon: Mail },
 ];
 
 interface SidebarProps {
